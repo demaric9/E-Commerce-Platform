@@ -1,0 +1,25 @@
+version 2:
+
+sources:
+  - name: sources
+    description: "Raw data from main schema"
+    schema: main
+  
+    tables:
+      # Customers
+      - name: customers_dataset
+        description: "Customer information"
+        columns:
+          - name: customer_id
+            description: "Unique identifier"
+            tests:
+              - unique
+              - not_null
+          - name: customer_unique_id
+            description: "Unique identifier of a customer across different orders"
+          - name: customer_zip_code_prefix
+            description: "First 5 digits of customer zip code"
+          - name: customer_city
+            description: "Customer city name"
+          - name: customer_state
+            description: "Customer state (Brazilian state abbreviation)"
