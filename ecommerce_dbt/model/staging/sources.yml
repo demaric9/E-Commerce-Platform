@@ -1,0 +1,151 @@
+version: 2
+
+sources:
+  - name: sources_raw
+    description: "Datasets from main schema"
+    schema: main
+    
+    tables:
+      # Customers
+      - name: customers
+        description: "Customer information with unique customer_id and location"
+        columns:
+          - name: customer_id
+            description: "Unique identifier of a customer"
+          - name: customer_unique_id
+            description: "Unique identifier of a customer across different orders"
+          - name: customer_zip_code_prefix
+            description: "First 5 digits of customer zip code"
+          - name: customer_city
+            description: "Customer city name"
+          - name: customer_state
+            description: "Customer state"
+
+      # Orders
+      - name: orders
+        description: "Order information including status and timestamps"
+        columns:
+          - name: order_id
+            description: "Unique identifier of the order"
+          - name: customer_id
+            description: "Key to the customer dataset (each order has a unique customer_id)"
+          - name: order_status
+            description: "Reference to the order status (delivered, shipped, etc.)"
+          - name: order_purchase_timestamp
+            description: "Shows the purchase timestamp"
+          - name: order_approved_at
+            description: "Shows the payment approval timestamp"
+          - name: order_delivered_carrier_date
+            description: "Shows the order posting timestamp (when it was handled to the logistic partner)"
+          - name: order_delivered_customer_date
+            description: "Shows the actual order delivery date to the customer"
+          - name: order_estimated_delivery_date
+            description: "Shows the estimated delivery date that was informed to customer at the purchase moment"
+
+      # Order Items
+      - name: order_items
+        description: "Order items data including seller and product information"
+        columns:
+          - name: order_id
+            description: "Order unique identifier"
+          - name: order_item_id
+            description: "Sequential number identifying the number of items included in the same order"
+          - name: product_id
+            description: "Product unique identifier"
+          - name: seller_id
+            description: "Seller unique identifier"
+          - name: shipping_limit_date
+            description: "Shows shipping limit date for increasing the delivery time"
+          - name: price
+            description: "Item price"
+          - name: freight_value
+            description: "Item freight value (shipping cost)"
+
+      # Products
+      - name: products
+        description: "Products data including category and dimensions"
+        columns:
+          - name: product_id
+            description: "Unique product identifier"
+          - name: product_category_name
+            description: "Root category of product (in Portuguese)"
+          - name: product_name_lenght
+            description: "Number of characters extracted from product name"
+          - name: product_description_lenght
+            description: "Number of characters extracted from product description"
+          - name: product_photos_qty
+            description: "Number of product published photos"
+          - name: product_weight_g
+            description: "Product weight measured in grams"
+          - name: product_length_cm
+            description: "Product length measured in centimeters"
+          - name: product_height_cm
+            description: "Product height measured in centimeters"
+          - name: product_width_cm
+            description: "Product width measured in centimeters"
+
+      # Sellers
+      - name: sellers
+        description: "Seller information including location"
+        columns:
+          - name: seller_id
+            description: "Seller unique identifier"
+          - name: seller_zip_code_prefix
+            description: "First 5 digits of seller zip code"
+          - name: seller_city
+            description: "Seller city name"
+          - name: seller_state
+            description: "Seller state"
+
+      # Payments
+      - name: order_payments
+        description: "Order payment information"
+        columns:
+          - name: order_id
+            description: "Order unique identifier"
+          - name: payment_sequential
+            description: "A customer may pay an order with more than one payment method"
+          - name: payment_type
+            description: "Method of payment chosen by the customer"
+          - name: payment_installments
+            description: "Number of installments chosen by the customer"
+          - name: payment_value
+            description: "Transaction value"
+
+      # Reviews
+      - name: order_reviews
+        description: "Customer reviews and ratings"
+        columns:
+          - name: review_id
+            description: "Unique review identifier"
+          - name: order_id
+            description: "Order unique identifier"
+          - name: review_score
+            description: "Note ranging from 1 to 5 given by the customer on a satisfaction survey"
+          - name: review_comment_title
+            description: "Comment title from the review left by the customer (in Portuguese)"
+          - name: review_comment_message
+            description: "Comment message from the review left by the customer (in Portuguese)"
+          - name: review_creation_date
+            description: "Shows the date in which the satisfaction survey was sent to the customer"
+          - name: review_answer_timestamp
+            description: "Shows the timestamp of the customer's answer to the satisfaction survey"
+
+      # Geolocation
+      - name: geolocation
+        description: "zip codes and lat/lng coordinates"
+        columns:
+          - name: geolocation_zip_code_prefix
+            description: "First 5 digits of zip code"
+          - name: geolocation_lat
+            description: "Latitude"
+          - name: geolocation_lng
+            description: "Longitude"
+          - name: geolocation_city
+            description: "City name"
+          - name: geolocation_state
+            description: "State"
+
+      # Product Category Translation (optional)
+      - name: product_category_name_translation
+        description: "Translates product category names from Portuguese to English"
