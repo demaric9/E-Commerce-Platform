@@ -25,7 +25,8 @@ dbt_modules/
 logs/
 manifest.json
 run_results.json
-profiles.yml  # Nếu bạn không muốn đẩy thông tin cấu hình cá nhân
+profiles.yml 
+package-lock.yml
 
 # DuckDB database
 *.duckdb

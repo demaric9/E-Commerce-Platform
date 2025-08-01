@@ -8,7 +8,7 @@ stg_orders as (
         cast(order_id as varchar) as order_id,
         cast(customer_id as varchar) as customer_id,
         lower(trim(order_status)) as order_status,
-        cast(order_purchase_timestamp as timestamp) as order_purchase_time,
+        cast(order_purchase_timestamp as timestamp) as order_purchase_timestamp,
         cast(order_approved_at as timestamp) as order_approved_time,
         cast(order_delivered_carrier_date as timestamp) as carrier_delivered_time,
         cast(order_delivered_customer_date as timestamp) as customer_delivered_time,
