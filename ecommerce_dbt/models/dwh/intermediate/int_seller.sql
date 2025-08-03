@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral')}}
+{{ config(materialized='ephemeral', enabled=false)}}
 -- 1 row per seller
 with orders as (
     select * from {{ ref('stg_order') }}

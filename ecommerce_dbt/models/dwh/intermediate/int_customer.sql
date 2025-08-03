@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral')}}
+{{ config(materialized='ephemeral', enabled=false)}}
 
 with customers as (
     select * from {{ ref('stg_customer') }}
@@ -7,12 +7,11 @@ orders as (
     select * from {{ ref('stg_order') }}
 ),
 order_items as (
-    select * from {{ ref('stg_order') }}
+    select * from {{ ref('stg_order_item') }}
 ),
 
 enriched_customer as (
     select 
-        customer_id,
         customer_unique_id,
         
         -- Geographic 
@@ -26,24 +25,23 @@ enriched_customer as (
         count(distinct o.order_id) as total_lifetime_orders,
         sum(oi.price + oi.freight_value) as total_lifetime_value,
         
-        -- Customer segmentation
-        case 
-            when count(distinct o.order_id) = 1 then 'One-time'
-            when count(distinct o.order_id) between 2 and 5 then 'Regular'
-            when count(distinct o.order_id) > 5 then 'Loyal'
-            else 'New'
-        end as customer_segment,
-        
         -- Recency (days since last order)
-        date_diff(current_date(), max(o.order_purchase_timestamp), day) as days_since_last_order,
+        (current_date - max(o.order_purchase_timestamp)::date)::int as recency_days,
+        count(distinct o.order_id) as frequency,
+        sum(oi.price + oi.freight_value) as monetary_value,
         
         -- Average order value
-        avg(oi.price + oi.freight_value) as avg_order_value
+        avg(oi.price + oi.freight_value) as avg_order_value,
+
+        -- Total purchased items
+        count(oi.order_item_id) as total_items_purchased,
+
+        avg(oi.freight_value / nullif(oi.price, 0)) as avg_freight_rate
         
     from customers c
     left join orders o using(customer_id)
     left join order_items oi using(order_id)
-    group by customer_id, customer_unique_id, customer_zip_code_prefix, 
+    group by customer_unique_id, customer_zip_code_prefix, 
             customer_city, customer_state
 )
 

@@ -1,10 +1,10 @@
-{{ config(materialized='ephemeral')}}
+{{ config(materialized='ephemeral', enabled=false)}}
 -- 1 row per payment (can be multiple per order)
 with orders as (
     select * from {{ ref('stg_order') }}
 ),
 payments as (
-    select * from {{ ref('stg_payment') }}
+    select * from {{ ref('stg_order_payment') }}
 ),
 enriched_payments as (
     select 

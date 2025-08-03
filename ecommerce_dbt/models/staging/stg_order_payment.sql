@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with sources as (
-    select * from {{ source('source_raw', 'order_payments') }}
+    select * from {{ source('source_raw', 'olist_order_payments_dataset') }}
 ), 
 stg_order_payments as (
     select

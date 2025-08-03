@@ -1,13 +1,13 @@
 version: 2
 
 sources:
-  - name: sources_raw
+  - name: source_raw
     description: "Datasets from main schema"
     schema: main
     
     tables:
       # Customers
-      - name: customers
+      - name: olist_customers_dataset
         description: "Customer information with unique customer_id and location"
         columns:
           - name: customer_id
@@ -22,7 +22,7 @@ sources:
             description: "Customer state"
 
       # Orders
-      - name: orders
+      - name: olist_orders_dataset
         description: "Order information including status and timestamps"
         columns:
           - name: order_id
@@ -43,7 +43,7 @@ sources:
             description: "Shows the estimated delivery date that was informed to customer at the purchase moment"
 
       # Order Items
-      - name: order_items
+      - name: olist_order_items_dataset
         description: "Order items data including seller and product information"
         columns:
           - name: order_id
@@ -62,7 +62,7 @@ sources:
             description: "Item freight value (shipping cost)"
 
       # Products
-      - name: products
+      - name: olist_products_dataset
         description: "Products data including category and dimensions"
         columns:
           - name: product_id
@@ -85,7 +85,7 @@ sources:
             description: "Product width measured in centimeters"
 
       # Sellers
-      - name: sellers
+      - name: olist_sellers_dataset
         description: "Seller information including location"
         columns:
           - name: seller_id
@@ -98,7 +98,7 @@ sources:
             description: "Seller state"
 
       # Payments
-      - name: order_payments
+      - name: olist_order_payments_dataset
         description: "Order payment information"
         columns:
           - name: order_id
@@ -113,7 +113,7 @@ sources:
             description: "Transaction value"
 
       # Reviews
-      - name: order_reviews
+      - name: olist_order_reviews_dataset
         description: "Customer reviews and ratings"
         columns:
           - name: review_id
@@ -132,7 +132,7 @@ sources:
             description: "Shows the timestamp of the customer's answer to the satisfaction survey"
 
       # Geolocation
-      - name: geolocation
+      - name: olist_geolocation_dataset
         description: "zip codes and lat/lng coordinates"
         columns:
           - name: geolocation_zip_code_prefix

@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with sources as (
-    select * from {{ source('sources_raw', 'products') }}
+    select * from {{ source('source_raw', 'olist_products_dataset') }}
 ),
 stg_products as (
     select 
@@ -15,7 +15,15 @@ stg_products as (
         cast(product_height_cm as int) as height_cm,
         cast(product_width_cm as int) as width_cm
     from sources 
-    where product_id is not null
+    WHERE product_id IS NOT NULL
+        AND product_category_name IS NOT NULL
+        AND product_name_length IS NOT NULL
+        AND product_description_length IS NOT NULL
+        AND product_photos_qty IS NOT NULL
+        AND product_weight_g IS NOT NULL
+        AND product_length_cm IS NOT NULL
+        AND product_height_cm IS NOT NULL
+        AND product_width_cm IS NOT NULL
 )
 
 select * from stg_products

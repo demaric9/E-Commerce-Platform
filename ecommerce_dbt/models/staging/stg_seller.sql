@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with sources as (
-    select * from {{ source('source_raw', 'sellers') }}
+    select * from {{ source('source_raw', 'olist_sellers_dataset') }}
 ),
 stg_sellers as (
     select 

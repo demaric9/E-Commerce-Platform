@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 with sources as (
-    select * from {{ source('source_raw', 'geolocation') }}
+    select * from {{ source('source_raw', 'olist_geolocation_dataset') }}
 ),
 stg_geolocation as (
     select

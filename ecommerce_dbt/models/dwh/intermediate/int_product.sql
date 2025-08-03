@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral')}}
+{{ config(materialized='ephemeral', enabled=false)}}
 -- 1 row per product
 
 with products as (
