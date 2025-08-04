@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', enabled=false)}}
+{{ config(materialized='view')}}
 
 with orders as (
     select * from {{ ref('stg_order') }}
@@ -6,24 +6,22 @@ with orders as (
 
 enriched_order_items as (
     select 
-        {{ dbt_utils.generate_surrogate_key(['order_id', 'order_item_id']) }} as order_item_key
-
         order_id,
+        item_number,
+        o.customer_id,
         product_id,
         seller_id,
 
         oi.product_price,
         oi.shipping_fee,
-        oi.product_price + oi.shipping_fee as total_item_value
-
-        s.seller_id,
-        s.seller_state
-
-        o.order_purchase_timestamp,
-        date(o.order_purchase_timestamp) as order_date
+        oi.product_price + oi.shipping_fee as total_item_value,
+        cast(o.order_purchase_timestamp as date) as order_date,
+        cast(o.estimated_delivery_time as date) as estimated_date,
+        cast(o.customer_delivered_time as date) as delivered_date,
 
     from {{ ref('stg_order_item') }} oi
-    left join {{ ref('stg_seller') }} s using(seller_id) 
+    left join {{ ref('stg_seller') }} using(seller_id) 
+    left join {{ ref('stg_product') }} using(product_id) 
     left join orders o using(order_id)
 )
 

@@ -17,8 +17,8 @@ stg_products as (
     from sources 
     WHERE product_id IS NOT NULL
         AND product_category_name IS NOT NULL
-        AND product_name_length IS NOT NULL
-        AND product_description_length IS NOT NULL
+        AND product_name_lenght IS NOT NULL
+        AND product_description_lenght IS NOT NULL
         AND product_photos_qty IS NOT NULL
         AND product_weight_g IS NOT NULL
         AND product_length_cm IS NOT NULL
