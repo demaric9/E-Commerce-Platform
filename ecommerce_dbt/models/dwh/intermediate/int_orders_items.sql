@@ -1,4 +1,4 @@
-{{ config(materialized='view')}}
+{{ config(materialized='ephemeral', tags=['intermediate'])}}
 
 with orders as (
     select * from {{ ref('stg_order') }}
@@ -11,7 +11,7 @@ enriched_order_items as (
         o.customer_id,
         product_id,
         seller_id,
-
+        order_status,
         oi.product_price,
         oi.shipping_fee,
         oi.product_price + oi.shipping_fee as total_item_value,
@@ -19,9 +19,7 @@ enriched_order_items as (
         cast(o.estimated_delivery_time as date) as estimated_date,
         cast(o.customer_delivered_time as date) as delivered_date,
 
-    from {{ ref('stg_order_item') }} oi
-    left join {{ ref('stg_seller') }} using(seller_id) 
-    left join {{ ref('stg_product') }} using(product_id) 
+    from {{ ref('stg_order_item') }} oi 
     left join orders o using(order_id)
 )
 
