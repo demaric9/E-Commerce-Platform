@@ -149,3 +149,8 @@ sources:
       # Product Category Translation (optional)
       - name: product_category_name_translation
         description: "Translates product category names from Portuguese to English"
+        columns:
+          - name: product_category_name
+            description: Category name in Portuguese
+          - name: product_category_name_english
+            description: Category name in English

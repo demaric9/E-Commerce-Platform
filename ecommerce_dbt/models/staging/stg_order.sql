@@ -2,7 +2,6 @@
 
 with sources as (
     select * from {{ source('source_raw', 'olist_orders_dataset') }}
-    where order_status = 'delivered'
 ),
 stg_orders as (
     select
