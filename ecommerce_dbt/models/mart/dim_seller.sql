@@ -7,7 +7,9 @@ with dim_seller as (
 select 
     {{ dbt_utils.generate_surrogate_key(['seller_id']) }} as seller_key,
     seller_id,
-    seller_zip_code,
+    {{ dbt_utils.generate_surrogate_key(['seller_zip_code']) }} as region_key,
+    latitude, 
+    longtitude,
     city,
     state
 from dim_seller

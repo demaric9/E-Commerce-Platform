@@ -7,6 +7,7 @@ with int_order_it as (
 select 
     {{ dbt_utils.generate_surrogate_key(['order_id', 'item_number']) }} as order_item_key,
     cast(strftime(order_date, '%Y%m%d') as integer) as date_key,
+    d.order_key,
     order_id,
     item_number,
      {{ dbt_utils.generate_surrogate_key(['customer_id']) }} as customer_key,
@@ -20,3 +21,4 @@ select
     estimated_date,
     delivered_date
 from int_order_it
+join {{ ref('dim_order') }} d using (order_id)

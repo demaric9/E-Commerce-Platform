@@ -7,7 +7,8 @@ with int_order_reviews as (
 select
     review_id,
     order_id,
-    {{ dbt_utils.generate_surrogate_key(['customer_id']) }} as customer_key,
+    d.order_key,
     review_score,
     review_creation_date
 from int_order_reviews
+join {{ ref('dim_order') }} d using (order_id)
