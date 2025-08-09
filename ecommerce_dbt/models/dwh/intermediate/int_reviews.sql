@@ -21,12 +21,10 @@ enriched_reviews as (
     select
         r.review_id,
         r.order_id,
-        customer_id,
         r.review_score,
         cast(review_creation_date as date) as review_creation_date
 
-    from reviews r 
-    left join {{ ref('stg_order') }} o using(order_id) 
+    from reviews r
 )
 
 select * from enriched_reviews

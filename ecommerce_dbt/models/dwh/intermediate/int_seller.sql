@@ -7,6 +7,8 @@ enriched_seller as (
     select 
         seller_id,
         seller_zip_code,
+        r.latitude,
+        r.longtitude,
         r.city,
         r.state
     from sellers seller 

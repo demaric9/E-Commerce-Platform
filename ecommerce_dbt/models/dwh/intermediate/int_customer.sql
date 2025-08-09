@@ -9,6 +9,8 @@ enriched_customer as (
         customer_id,
         customer_unique_id,
         customer_zip_code_prefix,
+        r.latitude,
+        r.longtitude,
         r.city,
         r.state
     from customers customer

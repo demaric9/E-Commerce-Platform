@@ -3,6 +3,8 @@
 with ranked_zip_region as (
     select
         geolocation_zip_code_prefix,
+        latitude,
+        longtitude,
         city,
         state,
         count(*) as cnt,
@@ -11,11 +13,13 @@ with ranked_zip_region as (
             order by count(*) desc
         ) as rn
     from {{ ref('stg_geolocation') }}
-    group by geolocation_zip_code_prefix, city, state
+    group by geolocation_zip_code_prefix, latitude, longtitude, city, state
 )
 
 select 
     geolocation_zip_code_prefix,
+    latitude,
+    longtitude,
     city,
     state
 from ranked_zip_region
