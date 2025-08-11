@@ -2,12 +2,6 @@ from airflow import DAG
 from airflow.utils.log.logging_mixin import LoggingMixin
 from airflow.operators.python import PythonOperator
 import os, sys
-
-# SCRIPT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../python_script"))
-# sys.path.append(SCRIPT_PATH)
-
-# CFG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../cfg"))
-# sys.path.append(CFG_PATH)
 sys.path.append("/opt/airflow")
 
 
