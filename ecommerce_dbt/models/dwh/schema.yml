@@ -1,0 +1,116 @@
+version: 2 
+
+models:
+  - name: int_customer
+    description: "Intermediate customer enriched"
+    columns:
+      - name: customer_id
+        description: "Customer id for customer"
+        tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: "Real customer id for customer"
+        tests:
+          - not_null
+  - name: int_seller
+    description: "Intermediate seller enriched"
+    columns:
+      - name: seller_id
+        description: "Real seller id"
+        tests:
+          - not_null
+          - unique
+      - name: seller_zip_code
+        description: "Seller zip_code address"
+        tests:
+          - not_null
+  - name: int_product
+    description: "Intermediate product enriched"
+    columns:
+      - name: product_id
+        description: Unique identifier for the product.
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_product')
+              field: product_id
+      - name: category_name
+        description: Original product category name in Portuguese.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_translation_product_category')
+              field: product_category_name
+      - name: product_category_name_english
+        description: Translated product category name in English.
+        tests:
+          - not_null 
+  - name: int_region
+    description: "Intermediate region enriched"
+    columns:
+      - name: geolocation_zip_code_prefix
+        description: "Geolocation zip code"
+        tests:
+          - not_null
+          - unique
+  - name: int_reviews
+    description: "Intermediate reviews enriched"
+    columns:
+      - name: review_id
+        description: "Review id"
+        tests:
+          - not_null 
+          - unique
+      - name: review_creation_date
+        description: "Review create date" 
+        tests:
+          - not_null
+      - name: order_id
+        description: "Order id"
+        tests:
+          - not_null
+  - name: int_payments
+    description: "Intermediate payment enriched"
+    columns:
+      - name: order_id
+        description: "Order id payment"
+        tests:
+          - not_null
+      - name: payment_value
+        description: "Payment value"
+        tests:
+          - not_null
+  - name: int_orders_items
+    description: "Intermediate order items enriched"
+    columns:
+      - name: order_id
+        description: "Order id of a item"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Customer id of a item"
+        tests:
+          - not_null
+      - name: product_id
+        description: "Product id of a item" 
+        tests:
+          - not_null
+      - name: seller_id
+        description: "Seller id of a item"
+        tests:
+          - not_null
+      - name: order_date
+        description: "Order date"
+        tests:
+          - not_null
+      - name: estimated_date
+        description: "estimated date"
+        tests:
+          - not_null
+      # - name: delivery_status_check
+      #   tests:
+      #     - accepted_values:
+      #         values:
+      #           - ['missing', 'ok', 'not applicable']

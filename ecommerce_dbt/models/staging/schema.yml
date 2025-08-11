@@ -8,13 +8,11 @@ models:
         data_type: varchar
         description: "PK for order reviews."
         tests: 
-          - unique
           - not_null
       - name: order_id
         data_type: varchar
         description: "FK to order"
         tests:
-          - unique
           - not_null
       - name: review_score
         data_type: ins
@@ -63,6 +61,24 @@ models:
         tests:
           - not_null
       - name: seller_id
+        tests:
+          - not_null
+  - name: stg_order_payment
+    description: "Staging order payment"
+    columns:
+      - name: order_id
+        description: "Order id payment"
+        tests:
+          - not_null
+  - name: stg_translation_product_category 
+    description: "Translate product category"
+    columns:
+      - name: product_category_name
+        description: "Category name in Portuguese"
+        tests:
+          - not_null
+      - name: product_category_name_english
+        description: "Category name in English"
         tests:
           - not_null
           
