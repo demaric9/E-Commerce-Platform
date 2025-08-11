@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', tags=['mart']) }}
 
 select *, 
        {{ dbt_utils.generate_surrogate_key(['geolocation_zip_code_prefix']) }} as region_key,

@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', tags=['mart']) }}
 
 with int_order_reviews as (
     select * from {{ ref('int_reviews') }}

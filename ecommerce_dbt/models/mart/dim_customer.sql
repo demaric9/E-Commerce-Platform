@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='table', tags=['mart']) }}
 
 with dim_customer as (
     select * from {{ ref('int_customer') }}
