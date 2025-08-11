@@ -2,15 +2,10 @@ version: "3.8"
 
 services:
   airflow-webserver:
-    image: apache/airflow:2.9.0-python3.10
+    image: airflow-custom:latest
     container_name: airflow_webserver
     command: >
-      bash -c "
-        pip install minio &&
-        pip install duckdb &&
-        pip install dbt-core && 
-        pip install dbt-duckdb &&
-        airflow webserver"
+        airflow webserver
     ports:
       - 8080:8080
     environment:
@@ -44,15 +39,10 @@ services:
     restart: always
 
   airflow-scheduler:
-    image: apache/airflow:2.9.0-python3.10
+    image: airflow-custom:latest
     container_name: airflow_scheduler
     command: >
-      bash -c "
-        pip install minio &&
-        pip install duckdb &&
-        pip install dbt-core && 
-        pip install dbt-duckdb &&
-        airflow scheduler"
+        airflow scheduler
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
@@ -80,15 +70,10 @@ services:
     restart: always
 
   airflow-init:
-    image: apache/airflow:2.9.0-python3.10
+    image: airflow-custom:latest
     container_name: airflow_init
     command: >
-      bash -c "
-        pip install minio &&
-        pip install duckdb &&
-        pip install dbt-core && 
-        pip install dbt-duckdb &&
-        airflow db migrate"
+        airflow db migrate
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
