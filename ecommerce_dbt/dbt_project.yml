@@ -28,6 +28,3 @@ models:
     mart:
       +materialized: table
       +schema: mart
-      business:
-        +materialized: table
-        +schema: business

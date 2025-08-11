@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate'])}}
+{{ config(materialized='view', tags=['intermediate'])}}
 
 with orders as (
     select * from {{ ref('stg_order') }}
@@ -18,6 +18,12 @@ enriched_order_items as (
         cast(o.order_purchase_timestamp as date) as order_date,
         cast(o.estimated_delivery_time as date) as estimated_date,
         cast(o.customer_delivered_time as date) as delivered_date,
+        case 
+            when order_status = 'delivered' and delivered_date is null then 'missing'
+            when order_status = 'delivered' then 'ok'
+            else 'not_applicable'
+        end as delivery_status_check
+
 
     from {{ ref('stg_order_item') }} oi 
     left join orders o using(order_id)
