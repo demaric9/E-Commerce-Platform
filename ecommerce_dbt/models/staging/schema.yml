@@ -70,6 +70,12 @@ models:
         description: "Order id payment"
         tests:
           - not_null
+      - name: payment_type
+        tests:
+          - not_null
+      - name: payment_value
+        tests:
+          - not_null
   - name: stg_translation_product_category 
     description: "Translate product category"
     columns:
