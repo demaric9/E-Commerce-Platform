@@ -5,7 +5,8 @@ NOTE: This project is for learning purposed and first time building ELT Pipeline
 # Project Introduction
 This project implements a ELT Pipeline using Modern Data Stack tools, and the dataset used in the project is the Olist E-Commerce datasets. I adopt the idea of Kimball and dbt docs to design a architect for this project. If the architect is done wrongly, so any suggests and help wil be appreciated. Thanks !
 
-Datasets can be found from [here][https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce]
+Datasets can be found from <a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" target="_blank">here</a>
+
 
 As the ELT Pipeline, first the data is extract and load then get thourgh the transformation stage. Here is the breakdown for architect.
 - Staging Layer: Where the data is raw. The table structure at this stage is correspond to source system table "as-is"
@@ -14,7 +15,7 @@ As the ELT Pipeline, first the data is extract and load then get thourgh the tra
 
 # Architecture
 ## Staging layer
-You can found the staging layer in the dbt project (via ecommerce_dbt), the staging is 1-1 to source data. As in dbt's documentation staging models should have a 1-1 relationship to the source system. Performed some basic cleaning as cast type or trimming,...etc.
+You can found the staging layer in the dbt project (via ecommerce_dbt), the staging is 1-1 to source data. As in [dbt's documentation](https://docs.getdbt.com/best-practices/how-we-structure/2-staging) staging models should have a 1-1 relationship to the source system. Performed some basic cleaning as cast type or trimming,...etc.
 
 ## Intermediate Layer
 This layer will use the downstream at staging above. At here the data is then cleaning with missing/null value, deduplication,enriched... so now the data is on-ready for the last layer.
@@ -26,7 +27,8 @@ All the models in this folder conform our Kimball-like dimensional model. Follow
 
 - per Kimball design tip: "This model represents the data relationships from the transaction header/line source system. But we’ve abandoned the operational mentality surrounding a header file. The header’s natural key, the transaction number, is still present in our design, but it’s treated as a degenerate dimension."
 
-- You can find the documentation about this on [here][https://www.kimballgroup.com/2007/10/design-tip-95-patterns-to-avoid-when-modeling-headerline-item-transactions/], also the page for design [modelling dimensional][https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/].
+- You can find the documentation about this on [this design tip](https://www.kimballgroup.com/2007/10/design-tip-95-patterns-to-avoid-when-modeling-headerline-item-transactions/), also the page for [dimensional modeling techniques](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/).
+
 
 
 
