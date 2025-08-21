@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate'])}}
+{{ config(materialized='view', tags=['intermediate'])}}
 
 with customers as (
     select * from {{ ref('stg_customer') }}

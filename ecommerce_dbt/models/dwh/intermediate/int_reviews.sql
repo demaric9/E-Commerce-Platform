@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate']) }}
+{{ config(materialized='view', tags=['intermediate']) }}
 
 with raw_reviews as (
     select * from {{ ref('stg_order_review') }}

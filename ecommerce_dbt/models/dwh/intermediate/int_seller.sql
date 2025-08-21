@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate'])}}
+{{ config(materialized='view', tags=['intermediate'])}}
 -- 1 row per seller
 with sellers as (
     select * from {{ ref('stg_seller') }}

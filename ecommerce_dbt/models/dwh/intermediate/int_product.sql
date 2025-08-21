@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate'])}}
+{{ config(materialized='view', tags=['intermediate'])}}
 -- 1 row per product
 
 with products as (

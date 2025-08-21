@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral', tags=['intermediate']) }}
+{{ config(materialized='view', tags=['intermediate']) }}
 
 with ranked_zip_region as (
     select
