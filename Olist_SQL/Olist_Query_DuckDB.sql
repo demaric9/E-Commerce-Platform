@@ -8,7 +8,8 @@ WITH payments AS (
 distinct_orders AS (
     SELECT DISTINCT
         order_id, order_date
-    FROM main_mart.fact_order_items
+    FROM main_mart.outliers_check_price
+    WHERE is_outlier = 0
 )
 SELECT 
     EXTRACT(YEAR FROM o.order_date) AS Y,
@@ -26,12 +27,12 @@ SELECT
 	EXTRACT(QUARTER FROM order_date) as Q,
 	COUNT(DISTINCT order_id) as num_of_orders
 FROM main_mart.fact_order_items
-WHERE order_status != 'canceled' AND order_status != 'unavailable'
+WHERE order_status = 'delivered' AND delivery_status_check = 'ok'
 GROUP BY Y,Q
 ORDER BY Y,Q;
 
 SELECT COUNT(DISTINCT order_id) FROM main_mart.fact_order_items
-WHERE order_status != 'canceled' AND order_status != 'unavailable';
+WHERE order_status = 'delivered' AND delivery_status_check = 'ok';
 
 -- 3. Product Revenue
 WITH payments AS (
@@ -43,13 +44,14 @@ WITH payments AS (
 item_counts AS (
     SELECT order_id,
            COUNT(*) AS num_items
-    FROM main_mart.fact_order_items
+    FROM main_mart.outliers_check_price
+    WHERE is_outlier = 0
     GROUP BY order_id
 )
 SELECT 
     d.product_category_name_english,
     SUM(p.total_payment / ic.num_items) AS TotalRevenue
-FROM main_mart.fact_order_items oi
+FROM main_mart.outliers_check_price oi
 JOIN main_mart.dim_product d ON d.product_key = oi.product_key
 JOIN payments p ON oi.order_id = p.order_id
 JOIN item_counts ic ON oi.order_id = ic.order_id
@@ -61,8 +63,8 @@ WITH total_payment_on_each_order AS (
 SELECT
 	oi.order_id,
 	SUM(oi.total_item_value) as order_value
-FROM main_mart.fact_order_items oi
-WHERE oi.order_status = 'delivered'
+FROM main_mart.outliers_check_price oi
+WHERE oi.order_status = 'delivered' AND oi.delivery_status_check = 'ok'
 GROUP BY oi.order_id
 )
 SELECT SUM(order_value) / COUNT(*) AS AOV
@@ -75,8 +77,8 @@ SELECT
 	EXTRACT(YEAR FROM order_date) AS Y,
 	EXTRACT(QUARTER FROM order_date) AS Q,
 	SUM(total_item_value) as order_value
-FROM main_mart.fact_order_items 
-WHERE order_status = 'delivered'
+FROM main_mart.outliers_check_price 
+WHERE order_status = 'delivered' AND delivery_status_check = 'ok'
 GROUP BY order_id, Y, Q
 ORDER BY order_id, Y, Q
 )
