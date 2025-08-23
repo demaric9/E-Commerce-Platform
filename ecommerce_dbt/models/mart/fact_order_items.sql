@@ -19,6 +19,7 @@ select
     total_item_value,
     order_date,
     estimated_date,
-    delivered_date
+    delivered_date,
+    delivery_status_check
 from int_order_it
 join {{ ref('dim_order') }} d using (order_id)

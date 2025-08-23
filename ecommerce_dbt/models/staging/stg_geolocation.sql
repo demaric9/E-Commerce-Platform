@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='view', tags=['staging']) }}
 
 with sources as (
     select * from {{ source('source_raw', 'olist_geolocation_dataset') }}

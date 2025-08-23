@@ -6,5 +6,5 @@ RUN pip install \
     duckdb \
     dbt-core==1.10.5 \
     dbt-duckdb==1.9.4
-
+RUN pip install openlineage-dbt
 USER airflow

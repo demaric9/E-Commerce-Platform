@@ -20,7 +20,7 @@ enriched_order_items as (
         cast(o.customer_delivered_time as date) as delivered_date,
         case 
             when order_status = 'delivered' and delivered_date is null then 'missing'
-            when order_status = 'delivered' then 'ok'
+            when order_status = 'delivered' and delivered_date is not null then 'ok'
             else 'not_applicable'
         end as delivery_status_check
 

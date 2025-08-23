@@ -5,49 +5,60 @@ models:
     description: "Mart order items"
     columns:
       - name: order_id
+        tags: ['test_mart']
         tests:
           - not_null
       - name: date_key
+        tags: ['test_mart']
         tests:
           - not_null
       - name: customer_key
+        tags: ['test_mart']
         tests:
           - not_null
       - name: product_key
+        tags: ['test_mart']
         tests:
           - not_null
       - name: seller_key
+        tags: ['test_mart']
         tests:
           - not_null
   - name: fact_order_payment
     columns:
       - name: order_key
+        tags: ['test_mart']
         tests:
           - not_null
   - name: fact_order_reviews
     columns:
       - name: order_key
+        tags: ['test_mart']
         tests:
           - not_null
   - name: dim_order 
     columns:
       - name: order_key 
+        tags: ['test_mart']
         tests:
           - not_null
           - unique
   - name: dim_customer
     columns:
       - name: customer_key
+        tags: ['test_mart']
         tests:
           - not_null
   - name: dim_product
     columns:
       - name: product_key
+        tags: ['test_mart']
         tests:
           - not_null
   - name: dim_seller
     columns:
       - name: seller_key
+        tags: ['test_mart']
         tests:
           - not_null
   
