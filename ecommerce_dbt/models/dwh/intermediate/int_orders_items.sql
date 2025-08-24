@@ -1,4 +1,4 @@
-{{ config(materialized='view', tags=['intermediate'])}}
+{{ config(materialized='table', tags=['intermediate'])}}
 
 with orders as (
     select * from {{ ref('stg_order') }}

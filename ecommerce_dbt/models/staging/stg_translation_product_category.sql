@@ -1,4 +1,4 @@
-{{ config(materialized='view', tags=['staging']) }}
+{{ config(materialized='table', tags=['staging']) }}
 
 with sources as (
     select * from {{ source('source_raw', 'product_category_name_translation') }}

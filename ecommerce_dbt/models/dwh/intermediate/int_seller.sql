@@ -1,5 +1,5 @@
-{{ config(materialized='view', tags=['intermediate'])}}
--- 1 row per seller
+{{ config(materialized='table', tags=['intermediate'])}}
+
 with sellers as (
     select * from {{ ref('stg_seller') }}
 ),

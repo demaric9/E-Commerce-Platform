@@ -1,5 +1,4 @@
-{{ config(materialized='view', tags=['intermediate'])}}
--- 1 row per payment (can be multiple per order)
+{{ config(materialized='table', tags=['intermediate'])}}
 
 with payments as (
     select * from {{ ref('stg_order_payment') }}
