@@ -104,4 +104,11 @@ models:
         tags: ['test_staging']
         tests:
           - not_null
-          
+  - name: stg_geolocation
+    description: "Geolocation"
+    columns:
+      - name: geolocation_zip_code_prefix
+        tags: ['test_staging']
+        tests:
+          - not_null
+          # - unique

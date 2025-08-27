@@ -14,7 +14,7 @@ enriched_customer as (
         r.city,
         r.state
     from customers customer
-    left join {{ ref('int_region') }} r 
+    join {{ ref('int_region') }} r 
         on customer.customer_zip_code_prefix = r.geolocation_zip_code_prefix
 )
 

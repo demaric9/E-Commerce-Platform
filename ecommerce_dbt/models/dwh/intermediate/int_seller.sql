@@ -12,7 +12,7 @@ enriched_seller as (
         r.city,
         r.state
     from sellers seller 
-    left join {{ ref('int_region') }} r
+    join {{ ref('int_region') }} r
         on seller.seller_zip_code = r.geolocation_zip_code_prefix
 )
 select * from enriched_seller

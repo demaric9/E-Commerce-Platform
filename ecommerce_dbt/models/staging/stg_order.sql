@@ -15,5 +15,8 @@ stg_orders as (
         cast(order_estimated_delivery_date as timestamp) as estimated_delivery_time
     from sources 
     where order_id is not null
+    and customer_id is not null 
+    and order_status is not null
+    and order_purchase_timestamp is not null
 )
 select * from stg_orders

@@ -12,5 +12,9 @@ stg_order_payments as (
         cast(payment_value as double) as payment_value
     from sources
     where order_id is not null
+    and payment_sequential is not null
+    and payment_type is not null 
+    and payment_installments is not null
+    and payment_value is not null
 )
 select * from stg_order_payments

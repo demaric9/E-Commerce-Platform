@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import sys
 from datetime import datetime, timedelta
 sys.path.append("/opt/airflow")
@@ -49,11 +50,6 @@ with DAG(
     catchup=False,
     tags=['dbt', 'ecommerce']
 ) as dag:
-
-    dbt_deps = BashOperator(
-        task_id='dbt_deps',
-        bash_command='cd /opt/airflow/ecommerce_dbt && dbt deps'
-    )
     
     dbt_build_staging = BashOperator(
         task_id='dbt_run_staging',
@@ -73,11 +69,6 @@ with DAG(
         env={'PATH': '/home/airflow/.local/bin:/usr/local/bin:/usr/bin:/bin'}
     )
 
-    dbt_run_docs = BashOperator(
-        task_id='dbt_run_docs',
-        bash_command='cd /opt/airflow/ecommerce_dbt && dbt docs generate'
-    )
-
     dbt_run_backup = PythonOperator(
         task_id='dbt_run_backup',
         python_callable=backup_duckdb
@@ -88,8 +79,15 @@ with DAG(
          python_callable=cleanup_duckdb
     )
 
-    dbt_deps >> dbt_build_staging \
-              >> dbt_build_intermediate \
-              >> dbt_build_mart \
-              >> dbt_run_docs \
-              >> dbt_run_backup >> dbt_run_cleanup_backdup
+    trigger_load_run_results = TriggerDagRunOperator(
+         task_id='trigger_load_run_results',
+         trigger_dag_id='load_dbt_logs',
+         wait_for_completion=False,
+         reset_dag_run=True
+    )
+
+    dbt_build_staging \
+    >> dbt_build_intermediate \
+    >> dbt_build_mart \
+    >> dbt_run_backup >> dbt_run_cleanup_backdup \
+    >> trigger_load_run_results

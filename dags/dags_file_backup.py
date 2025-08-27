@@ -80,12 +80,12 @@ with DAG(
     catchup=False
 ) as dag:
     test_task = PythonOperator(
-        task_id='test_load_logs',
+        task_id='load_manifest',
         python_callable=load_dbt_manifest
     )
 
     test_task_2 = PythonOperator(
-        task_id='test_load_logs_run_results',
+        task_id='load_run_results',
         python_callable=load_dbt_run_result
     )
 

@@ -82,19 +82,6 @@ models:
         tags: ['test_intermediate']
         tests:
           - not_null
-  - name: int_payments
-    description: "Intermediate payment enriched"
-    columns:
-      - name: order_id
-        description: "Order id payment"
-        tags: ['test_intermediate']
-        tests:
-          - not_null
-      - name: payment_value
-        description: "Payment value"
-        tags: ['test_intermediate']
-        tests:
-          - not_null
   - name: int_orders_items
     description: "Intermediate order items enriched"
     columns:

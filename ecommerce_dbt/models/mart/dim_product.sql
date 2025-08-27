@@ -12,9 +12,5 @@ select
     product_category_name_english,
     product_name_length,
     product_description_length,
-    photos_count,
-    weight_g,
-    length_cm,
-    height_cm, 
-    width_cm
+    photos_count
 from dim_product

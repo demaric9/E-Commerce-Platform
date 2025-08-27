@@ -12,6 +12,10 @@ stg_customers as (
         upper(trim(customer_state)) as customer_state,
     from sources 
     where customer_id is not null
+    and customer_unique_id is not null
+    and customer_zip_code_prefix is not null
+    and customer_city is not null
+    and customer_state is not null
 )
 
 select * from stg_customers

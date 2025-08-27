@@ -12,5 +12,9 @@ stg_geolocation as (
         upper(trim(geolocation_state)) as state
     from sources
     where geolocation_zip_code_prefix is not null
+    and latitude is not null
+    and longtitude is not null
+    and city is not null
+    and state is not null
 )
 select * from stg_geolocation

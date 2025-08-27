@@ -1,7 +1,7 @@
 {{ config(materialized='table', tags=['mart']) }}
 
 with int_order_payments as (
-    select * from {{ ref('int_payments') }}
+    select * from {{ ref('stg_order_payment') }}
 )
 
 select

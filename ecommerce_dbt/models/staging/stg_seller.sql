@@ -11,5 +11,8 @@ stg_sellers as (
         upper(trim(seller_state)) as seller_state 
     from sources
     where seller_id is not null
+    and seller_zip_code is not null
+    and seller_city is not null
+    and seller_state is not null
 )
 select * from stg_sellers

@@ -14,5 +14,8 @@ stg_order_reviews as (
         cast(review_answer_timestamp as timestamp) as review_answer_date
     from sources
     where review_id is not null
+    and order_id is not null
+    and review_score is not null
+    and review_creation_date is not null
 )
 select * from stg_order_reviews
