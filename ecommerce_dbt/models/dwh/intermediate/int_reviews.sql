@@ -1,30 +1,39 @@
 {{ config(materialized='table', tags=['intermediate']) }}
 
-with raw_reviews as (
-    select * from {{ ref('stg_order_review') }}
+WITH raw_reviews AS (
+    SELECT * FROM {{ ref('stg_order_review') }}
 ),
 
-ranked_view as (
-    select *,
-        row_number() over (partition by review_id
-                            order by review_creation_date desc) as row_num 
-        from raw_reviews                    
+rn_review AS (
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (
+                   PARTITION BY review_id
+                   ORDER BY review_creation_date DESC
+               ) AS rn
+        FROM raw_reviews
+    ) t
+    WHERE rn = 1
 ),
 
-reviews as (
-    select * 
-    from ranked_view
-    where row_num = 1
-),
-
-enriched_reviews as (
-    select
-        r.review_id,
-        r.order_id,
-        r.review_score,
-        cast(review_creation_date as date) as review_creation_date
-
-    from reviews r
+rn_order AS (
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (
+                   PARTITION BY order_id
+                   ORDER BY review_creation_date DESC
+               ) AS rn
+        FROM rn_review
+    ) t
+    WHERE rn = 1
 )
 
-select * from enriched_reviews
+SELECT
+    review_id,
+    order_id,
+    review_score,
+    CAST(review_creation_date AS date) AS review_creation_date
+FROM rn_order
+

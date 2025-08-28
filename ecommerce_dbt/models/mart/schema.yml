@@ -24,18 +24,6 @@ models:
         tags: ['test_mart']
         tests:
           - not_null
-  - name: fact_order_payment
-    columns:
-      - name: order_key
-        tags: ['test_mart']
-        tests:
-          - not_null
-  - name: fact_order_reviews
-    columns:
-      - name: order_key
-        tags: ['test_mart']
-        tests:
-          - not_null
   - name: dim_order 
     columns:
       - name: order_key 
