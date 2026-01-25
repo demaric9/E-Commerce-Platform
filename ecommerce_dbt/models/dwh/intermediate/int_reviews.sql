@@ -34,6 +34,7 @@ SELECT
     review_id,
     order_id,
     review_score,
-    CAST(review_creation_date AS date) AS review_creation_date
+    CAST(review_creation_date AS date) AS review_creation_date,
+    loaded_at
 FROM rn_order
 

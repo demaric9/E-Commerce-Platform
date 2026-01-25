@@ -9,7 +9,8 @@ stg_order_payments as (
         cast(payment_sequential as integer) as payment_sequential,
         cast(payment_type as varchar) as payment_type,
         cast(payment_installments as integer) as payment_installments,
-        cast(payment_value as double) as payment_value
+        cast(payment_value as double) as payment_value,
+        loaded_at
     from sources
     where order_id is not null
     and payment_sequential is not null

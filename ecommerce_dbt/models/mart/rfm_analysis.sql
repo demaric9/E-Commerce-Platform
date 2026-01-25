@@ -6,16 +6,15 @@ WITH orders_agg AS (
         customer_key,
         MAX(order_date) as order_date,
         COUNT(*) as total_items,
-        FROM {{ ref('outliers_check_price') }}
-        WHERE is_outlier = 0 AND delivery_status_check = 'ok'
+        FROM {{ ref('fact_order_items') }}
+        WHERE delivery_status_check = 'ok'
         GROUP BY order_id, customer_key
 ),
 payment_agg AS (
     SELECT 
         order_id,
         SUM(payment_value) as total_payment
-        FROM {{ ref('outliers_check_payment') }}
-        WHERE is_outlier = 0
+        FROM {{ ref('fact_order_payment') }}
         GROUP BY order_id
 )
 SELECT 

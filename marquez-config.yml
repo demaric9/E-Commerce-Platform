@@ -1,0 +1,23 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 3000
+      bindHost: 0.0.0.0
+  adminConnectors:
+    - type: http
+      port: 3001
+      bindHost: 0.0.0.0
+
+db:
+  driverClass: org.postgresql.Driver
+  url: jdbc:postgresql://postgres:5432/marquez_db
+  user: marquez_user
+  password: marquez_password
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+
+flyway:
+  cleanDisabled: false
