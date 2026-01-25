@@ -7,7 +7,8 @@ services:
     command: >
         airflow webserver
     ports:
-      - 8080:8080
+      - 8080:8080   # Airflow
+      - 8081:8081   # Dbt Docs
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__FERNET_KEY: ${FERNET_KEY}
@@ -17,6 +18,8 @@ services:
       AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://user_ecommerce_db:user_ecommerce_db@host.docker.internal:5432/ecommerce_db
       AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth"
+      OPENLINEAGE_URL: http://marquez:3000
+      OPENLINEAGE_NAMESPACE: pipeline
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -37,6 +40,9 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - default
+      - marquez-network
 
   airflow-scheduler:
     image: airflow-custom:latest
@@ -50,6 +56,8 @@ services:
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
       AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://user_ecommerce_db:user_ecommerce_db@host.docker.internal:5432/ecommerce_db
+      OPENLINEAGE_URL: http://marquez:3000
+      OPENLINEAGE_NAMESPACE: pipeline
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -68,6 +76,9 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - default
+      - marquez-network
 
   airflow-init:
     image: airflow-custom:latest
@@ -89,3 +100,56 @@ services:
       - ./ecommerce_db.duckdb:/opt/airflow/ecommerce_db.duckdb
       - ./data:/opt/airflow/data
       - ./ecommerce_dbt:/opt/airflow/ecommerce_dbt
+    networks:
+      - default
+      - marquez-network
+
+  postgres:
+    image: postgres:14
+    container_name: postgres14
+    environment:
+      POSTGRES_DB: marquez_db
+      POSTGRES_USER: marquez_user
+      POSTGRES_PASSWORD: marquez_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: 
+      - marquez-network
+
+  marquez:
+    image: marquezproject/marquez:latest
+    container_name: marquez
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"   # API
+      - "3001:3001"   # Admin
+    environment:
+      - MARQUEZ_CONFIG=/usr/src/app/config.yml
+    volumes:
+      - ./marquez-config.yml:/usr/src/app/config.yml:ro
+    networks: 
+      - marquez-network
+
+  marquez-web:
+    image: marquezproject/marquez-web:latest
+    ports:
+      - "5000:5000"   # UI
+    environment:
+      - WEB_PORT=5000
+      - MARQUEZ_HOST=marquez
+      - MARQUEZ_PORT=3000
+    depends_on:
+      - marquez
+    networks: 
+      - marquez-network
+
+networks:
+  default:
+    driver: bridge
+  marquez-network:
+    driver: bridge
+volumes:
+  postgres_data:

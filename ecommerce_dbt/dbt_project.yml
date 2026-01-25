@@ -28,3 +28,8 @@ models:
     mart:
       +materialized: table
       +schema: mart
+
+snapshots:
+  ecommerce_dbt:
+    +target_schema: snapshots
+

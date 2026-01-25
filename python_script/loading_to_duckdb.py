@@ -21,11 +21,11 @@ def load_csvs_from_minio():
     # Loop through bucket in MinIO
     base_prefix = "s3://ecommerce-raw/raw/"  # path to bucket
     result = con.execute(f"""
-        SELECT file FROM glob('{base_prefix}*.csv')
+        SELECT * FROM glob('{base_prefix}*.csv')
     """).fetchall()
 
     if not result:
-        print(" Không tìm thấy file CSV trong bucket.")
+        print(" Not found.")
         return
 
     # Loop thourgh .csv files and load to DuckDB
@@ -34,11 +34,11 @@ def load_csvs_from_minio():
         print(f"Loading: {file_path} to Table: {table_name}")
         con.execute(f"""
             CREATE OR REPLACE TABLE {table_name} AS
-            SELECT * FROM read_csv_auto('{file_path}')
+            SELECT *, current_timestamp as loaded_at FROM read_csv_auto('{file_path}')
         """)
 
     con.close()
-    print("Hoàn tất load tất cả file CSV vào DuckDB.")
+    print("Complete load DuckDB.")
 
 if __name__ == "__main__":
     load_csvs_from_minio()
