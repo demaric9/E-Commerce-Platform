@@ -60,6 +60,8 @@ sources:
             description: "Item price"
           - name: freight_value
             description: "Item freight value (shipping cost)"
+          - name: loaded_at
+            description: "Time updated"
 
       # Products
       - name: olist_products_dataset
@@ -111,6 +113,8 @@ sources:
             description: "Number of installments chosen by the customer"
           - name: payment_value
             description: "Transaction value"
+          - name: loaded_at
+            description: "Time updated"
 
       # Reviews
       - name: olist_order_reviews_dataset
@@ -130,6 +134,8 @@ sources:
             description: "Shows the date in which the satisfaction survey was sent to the customer"
           - name: review_answer_timestamp
             description: "Shows the timestamp of the customer's answer to the satisfaction survey"
+          - name: loaded_at
+            description: "Time updated"
 
       # Geolocation
       - name: olist_geolocation_dataset

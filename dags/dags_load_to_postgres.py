@@ -12,6 +12,7 @@ SCHEMA = "main_mart"
 
 def extract_metadata(**context):
     con = duckdb.connect(DUCKDB_PATH)
+    tables = []
     results = con.execute(f"""
         SELECT table_schema, table_name
         FROM information_schema.tables

@@ -24,16 +24,13 @@ models:
         tags: ['test_mart']
         tests:
           - not_null
-  - name: dim_order 
-    columns:
-      - name: order_key 
-        tags: ['test_mart']
-        tests:
-          - not_null
-          - unique
   - name: dim_customer
     columns:
       - name: customer_key
+        tags: ['test_mart']
+        tests:
+          - not_null
+      - name: region_key
         tags: ['test_mart']
         tests:
           - not_null
@@ -48,5 +45,30 @@ models:
       - name: seller_key
         tags: ['test_mart']
         tests:
+          - not_null
+  - name: history_customer
+    columns:
+      - name: customer_valid_key
+        tags: ['test_mart']
+        tests:
+          - unique
+  - name: history_seller
+    columns:
+      - name: seller_valid_key
+        tags: ['test_mart']
+        tests:
+          - unique
+  - name: history_product
+    columns:
+      - name: product_valid_key
+        tags: ['test_mart']
+        tests:
+          - unique
+  - name: fact_order_payment
+    columns:
+      - name: order_payment_key
+        tags: ['test_mart']
+        tests:
+          - unique
           - not_null
   

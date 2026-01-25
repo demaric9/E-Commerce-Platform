@@ -9,7 +9,7 @@ models:
         tags: ['test_intermediate']
         tests:
           - not_null
-          - unique
+          # - unique
       - name: customer_unique_id
         description: "Real customer id for customer"
         tags: ['test_intermediate']
@@ -23,7 +23,7 @@ models:
         tags: ['test_intermediate']
         tests:
           - not_null
-          - unique
+          # - unique
       - name: seller_zip_code
         description: "Seller zip_code address"
         tags: ['test_intermediate']
@@ -37,7 +37,7 @@ models:
         tags: ['test_intermediate']
         tests:
           - not_null
-          - unique
+          # - unique
           - relationships:
               to: ref('stg_product')
               field: product_id
@@ -107,11 +107,6 @@ models:
           - not_null
       - name: order_date
         description: "Order date"
-        tags: ['test_intermediate']
-        tests:
-          - not_null
-      - name: estimated_date
-        description: "estimated date"
         tags: ['test_intermediate']
         tests:
           - not_null

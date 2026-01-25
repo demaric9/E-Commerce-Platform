@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.utils.log.logging_mixin import LoggingMixin
 from airflow.operators.python import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 import os, sys
 sys.path.append("/opt/airflow")
 
@@ -18,11 +19,11 @@ default_args = {
 }
 
 with DAG(
-    dag_id = 'ecommerce_extract_and_load_pipeline',
+    dag_id = 'extract_and_load',
     default_args = default_args,
     schedule_interval = None,
     catchup = False,
-    tags = ['duckdb', 'minio', 'ecommerce']
+    tags = ['duckdb', 'minio']
 ) as dag:
     extract_data = PythonOperator(
         task_id = 'extract_data',
@@ -33,5 +34,12 @@ with DAG(
         task_id = 'loading_to_duckdb',
         python_callable = load_csvs_from_minio
     )
-extract_data >> loading_to_duckdb
+
+    trigger_transform_dbt = TriggerDagRunOperator(
+         task_id='trigger_transform_dbt',
+         trigger_dag_id='transform_dbt',
+         wait_for_completion=False,
+         reset_dag_run=True
+    )
+extract_data >> loading_to_duckdb >> trigger_transform_dbt
 

@@ -13,9 +13,11 @@ select
     review_id,
     order_id,
     review_score,
-    review_creation_date
+    review_creation_date,
+    cast(strftime(review_creation_date, '%Y%m%d') as integer) as date_key,
+    loaded_at
 from int_order_reviews
 
 {% if is_incremental() %}
-  where review_creation_date > (select max(review_creation_date) from {{ this }})
+  where loaded_at > (select max(loaded_at) from {{ this }})
 {% endif %}

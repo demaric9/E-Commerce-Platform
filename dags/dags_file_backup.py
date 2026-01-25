@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from datetime import datetime
 import duckdb, json
 
@@ -89,4 +90,10 @@ with DAG(
         python_callable=load_dbt_run_result
     )
 
-    test_task >> test_task_2
+    trigger_load_postgres = TriggerDagRunOperator(
+         task_id='trigger_load_postgres',
+         trigger_dag_id='duckdb_to_postgres_full',
+         wait_for_completion=False,
+         reset_dag_run=True
+    )
+    test_task >> test_task_2 >> trigger_load_postgres
