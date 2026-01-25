@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: stg_order_review
+    description: "Staging order review represent 1-1"
+    columns: 
+      - name: review_id
+        data_type: varchar
+        description: "PK for order reviews."
+        tags: ['test_staging']
+        tests: 
+          - not_null
+      - name: order_id
+        data_type: varchar
+        description: "FK to order"
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: review_score
+        data_type: ins
+        description: "Review score on order"
+        tags: ['test_staging']
+        tests:
+          - not_null
+  - name: stg_customer
+    description: "Staging customer represent 1-1"
+    columns:
+      - name: customer_id
+        description: "PK for customer mapping for others table"
+        tags: ['test_staging']
+        tests:
+          - unique
+      - name: customer_unique_id
+        description: "Real unique ID of a customer"
+        tags: ['test_staging']
+        tests:
+          - not_null
+  - name: stg_order 
+    columns:
+      - name: order_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+          - unique
+  - name: stg_seller
+    columns:
+      - name: seller_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+          - unique
+  - name: stg_product
+    columns:
+      - name: product_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+          - unique
+  - name: stg_order_item
+    columns:
+      - name: order_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: product_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: seller_id
+        tags: ['test_staging']
+        tests:
+          - not_null
+  - name: stg_order_payment
+    description: "Staging order payment"
+    columns:
+      - name: order_id
+        description: "Order id payment"
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: payment_type
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: payment_value
+        tags: ['test_staging']
+        tests:
+          - not_null
+  - name: stg_translation_product_category 
+    description: "Translate product category"
+    columns:
+      - name: product_category_name
+        description: "Category name in Portuguese"
+        tags: ['test_staging']
+        tests:
+          - not_null
+      - name: product_category_name_english
+        description: "Category name in English"
+        tags: ['test_staging']
+        tests:
+          - not_null
+  - name: stg_geolocation
+    description: "Geolocation"
+    columns:
+      - name: geolocation_zip_code_prefix
+        tags: ['test_staging']
+        tests:
+          - not_null
+          # - unique

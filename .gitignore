@@ -1,0 +1,53 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Airflow
+airflow.db
+airflow.cfg
+logs/
+unittests.cfg
+# DAGs output files
+*.log
+
+# DBT
+dbt_packages/
+target/
+dbt_modules/
+logs/
+manifest.json
+run_results.json
+profiles.yml 
+package-lock.yml
+
+# DuckDB database
+*.duckdb
+*.duckdb-wal
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+
+# CSV or temp data
+data/
+*.csv
+*.tmp
+
+# Misc
+*.bak
